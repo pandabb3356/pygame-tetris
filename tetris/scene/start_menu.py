@@ -3,7 +3,7 @@ from typing import Optional
 import pygame as pg
 
 from tetris.helper import Position, RGB
-from .base import Scene
+from .base import Scene, SceneParameter
 
 
 class StartMenu(Scene):
@@ -41,15 +41,15 @@ class StartMenu(Scene):
         return self.surface_width // 20
 
     @property
-    def text_pos(self):
+    def text_pos(self) -> Position:
         len(self.TEXT)
         return Position(
             self.surface.get_width() // 4,
-            self.surface.get_height() // 4 + self.font_size * 2,
+            self.surface.get_height() // 4 + self.font_size * 2.5,
         )
 
-    def run(self, events):
-        for e in events:
-            if e.type == pg.KEYDOWN and e.key == pg.K_z:
+    def run(self, scene_parameter: SceneParameter):
+        for e in scene_parameter.events:
+            if e.type == pg.KEYDOWN:
                 return 1
         return 0
