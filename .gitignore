@@ -130,3 +130,6 @@ dmypy.json
 
 # Pycharm
 .idea/
+
+# pytest
+.pytest_cache
