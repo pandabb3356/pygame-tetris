@@ -4,6 +4,8 @@ from tetris.helper import Vector
 
 
 class Shape:
+    """Shape"""
+
     shapes: list = [
         [
             [0, 0, 0, 0, 0],
@@ -17,8 +19,18 @@ class Shape:
     n_cols: int = 5
     n_rows: int = 5
 
+    _rot: int
+
     def __init__(self, rot: int = 0):
-        self.rot = rot
+        self._rot = rot
+
+    @property
+    def rot(self) -> int:
+        return self._rot
+
+    @rot.setter
+    def rot(self, rot: int):
+        self._rot = rot
 
     @property
     def rows(self):
