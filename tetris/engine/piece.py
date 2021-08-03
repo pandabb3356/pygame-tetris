@@ -32,8 +32,6 @@ class Piece:
         self.x = x
         self.y = y
 
-        self.position = Position(self.x, self.y)
-
         self._shape = shape
         self._texture = texture
         self._rot = rot
@@ -46,7 +44,11 @@ class Piece:
 
     def __iter__(self):
         for i, j in self.shape:
-            yield Vector(self.x, self.y) + Vector(i, j)
+            yield Position(self.x, self.y) + Vector(i, j)
+
+    @property
+    def position(self) -> Position:
+        return Position(self.x, self.y)
 
     @property
     def collapsed(self) -> bool:
@@ -69,5 +71,5 @@ class Piece:
         return self._rot
 
     def rotate(self, rot: int):
-        self._rot = rot
-        self.shape.rot = (self.shape.rot + rot) % 4
+        rot = (self._rot + rot) % 4
+        self._rot = self.shape.rot = rot
