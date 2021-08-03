@@ -11,7 +11,8 @@ from .shape import (
     TShape,
     IShape,
 )
-from .texture import Texture, TContent
+from .texture import Texture
+from .typing import TContent
 
 
 class Piece:

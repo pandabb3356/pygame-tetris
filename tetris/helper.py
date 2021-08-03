@@ -42,3 +42,9 @@ class RGB(NamedTuple):
     r: int
     g: int
     b: int
+
+
+class Factor(NamedTuple):
+    a: float = 1.0
+    b: float = 1.0
+    c: float = 1.0

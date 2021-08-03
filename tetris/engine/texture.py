@@ -1,6 +1,6 @@
-from typing import Generic, Set, Iterable, TypeVar
+from typing import Generic, Set, Iterable
 
-TContent = TypeVar("TContent")
+from tetris.engine.typing import TContent
 
 
 class Texture(Generic[TContent]):
