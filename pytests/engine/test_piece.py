@@ -10,28 +10,30 @@ class TestPiece(TestCase):
     def setUp(self) -> None:
         self.position = Position(0, 0)
         self.texture = mock.MagicMock(spec=Texture)
+        self.content = "content"
+        self.shape_cls = mock.MagicMock()
         self.shape = mock.MagicMock(spec=Shape, rot=0)
 
     def test_init(self):
         piece = Piece(
             self.position.x,
             self.position.y,
-            self.shape,
-            self.texture,
+            Shape,
+            self.content,
         )
 
         assert piece.position == self.position
         assert piece.rot == 0
         assert piece.collapsed is False
-        assert piece.texture == self.texture
-        assert piece.shape == self.shape
+        assert piece.texture.content == self.content
+        assert isinstance(piece.shape, Shape) is True
 
     def test_move(self):
         piece = Piece(
             self.position.x,
             self.position.y,
-            self.shape,
-            self.texture,
+            Shape,
+            self.content,
         )
 
         vector = Vector(1, 0)
@@ -50,8 +52,8 @@ class TestPiece(TestCase):
         piece = Piece(
             self.position.x,
             self.position.y,
-            self.shape,
-            self.texture,
+            Shape,
+            self.content,
         )
 
         for vi, vec in enumerate(piece):
@@ -62,8 +64,8 @@ class TestPiece(TestCase):
         piece = Piece(
             self.position.x,
             self.position.y,
-            self.shape,
-            self.texture,
+            Shape,
+            self.content,
             rot=0,
         )
 

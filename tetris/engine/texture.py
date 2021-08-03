@@ -1,19 +1,19 @@
-from typing import Generic, TypeVar, Set, Iterable
+from typing import Generic, Set, Iterable, TypeVar
 
-T = TypeVar("T")
+TContent = TypeVar("TContent")
 
 
-class Texture(Generic[T]):
+class Texture(Generic[TContent]):
     # TODO: make more clearly
     """Texture of piece for each tile"""
 
-    pools: Set[T]
+    pools: Set[TContent]
 
-    def __init__(self, content: T):
-        self.content: T = content
+    def __init__(self, content: TContent):
+        self.content: TContent = content
 
     @classmethod
-    def load_pools(cls, contents: Iterable[T]):
+    def load_pools(cls, contents: Iterable[TContent]):
         cls.pools = set()
         for content in contents:
             cls.pools.add(content)

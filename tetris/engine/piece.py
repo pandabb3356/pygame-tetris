@@ -1,3 +1,5 @@
+from typing import Type, TypeVar
+
 from tetris.helper import Position, Vector
 from .shape import (
     Shape,
@@ -9,7 +11,7 @@ from .shape import (
     TShape,
     IShape,
 )
-from .texture import Texture
+from .texture import Texture, TContent
 
 
 class Piece:
@@ -28,12 +30,14 @@ class Piece:
     _rot: int
     _collapsed: bool
 
-    def __init__(self, x: int, y: int, shape: Shape, texture: Texture, rot: int = 0):
+    def __init__(
+        self, x: int, y: int, shape_cls: Type[Shape], content: TContent, rot: int = 0
+    ):
         self.x = x
         self.y = y
 
-        self._shape = shape
-        self._texture = texture
+        self._shape = shape_cls.init(rot=rot)
+        self._texture = Texture(content)
         self._rot = rot
         self._shape.rot = rot
         self._collapsed = False
