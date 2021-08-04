@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional, Type, Callable
 
 import pygame as pg
 
@@ -6,7 +6,7 @@ from .scene import StartMenu, Scene
 from .scene.base import SceneParameter
 
 
-def scene_check(func):
+def scene_check(func) -> Callable:
     def wrapper(game: "Game", *args, **kwargs):
         if game.scene is None:
             raise ValueError("Scene is empty !!")
@@ -21,17 +21,17 @@ class Game:
     WIN_SIZE = (1000, 800)
     INIT_SCENE_CLS: Type[Scene] = StartMenu
 
-    _surface: pg.Surface
+    _surface: pg.surface.Surface
 
     _scene: Optional[Scene]
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.set_surface(pg.display.set_mode(self.WIN_SIZE))
 
-    def set_surface(self, surface: pg.Surface):
+    def set_surface(self, surface: pg.surface.Surface) -> None:
         self._surface = surface
 
-    def init(self):
+    def init(self) -> None:
         # start to load
         self._scene = self.INIT_SCENE_CLS(self._surface)
 
@@ -40,8 +40,11 @@ class Game:
         return self._scene.run(scene_parameter)  # type: ignore
 
     @scene_check
-    def switch_scene(self, value: int):
-        scene_cls_map = {1: self._scene.next, -1: self._scene.previous}  # type: ignore
+    def switch_scene(self, value: int) -> None:
+        scene_cls_map = {
+            1: self._scene.next,  # type: ignore
+            -1: self._scene.previous,  # type: ignore
+        }
 
         scene_cls = scene_cls_map.get(value)
         if scene_cls:
@@ -51,10 +54,9 @@ class Game:
     def scene(self) -> Optional[Scene]:
         return self._scene
 
-    def run(self):
+    def run(self) -> None:
         pg.init()
         clock = pg.time.Clock()
-        clock.tick()
 
         self.init()
 
@@ -72,11 +74,13 @@ class Game:
                     SceneParameter(
                         events=events,
                         clock=clock,
+                        pressed=pg.key.get_pressed(),
                     )
                 ),
             )
 
             pg.display.flip()
+            clock.tick()
             pg.display.update()
 
         pg.quit()

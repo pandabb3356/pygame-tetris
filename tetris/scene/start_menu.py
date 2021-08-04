@@ -15,17 +15,18 @@ class StartMenu(Scene):
     FONT_STYLE: str = "comicsansms"
     TEXT: str = "Press any key to start ..."
 
-    def init(self):
+    def init(self) -> None:
         self.font = pg.font.SysFont(self.FONT_STYLE, self.font_size)
         self.to_surface()
 
-    def to_surface(self):
+    def to_surface(self) -> None:
         self.surface.blit(
             self.render_text(),
             self.text_pos,
         )
 
-    def render_text(self) -> Union[pg.Surface, Any]:
+    def render_text(self) -> Union[pg.surface.Surface, Any]:
+        self.surface.fill((10, 10, 20))
         return self.font.render(  # type: ignore
             self.TEXT,
             True,

@@ -2,16 +2,19 @@ import abc
 from typing import Optional, Type, List
 
 import pygame as pg
+from pygame.key import ScancodeWrapper  # type: ignore
 
 
 class SceneMeta(type):
-    def __rshift__(self, other: Type["Scene"]):
+    def __rshift__(self, other: Optional[Type["Scene"]]):
         self.next = other
-        other.previous = self
+        if other:
+            other.previous = self  # type: ignore
 
-    def __lshift__(self, other: Type["Scene"]):
+    def __lshift__(self, other: Optional[Type["Scene"]]):
         self.previous = other
-        other.next = self
+        if other:
+            other.next = self  # type: ignore
 
 
 class SceneParameter:
@@ -19,21 +22,28 @@ class SceneParameter:
 
     events: List[pg.event.Event]
     clock: pg.time.Clock
+    pressed: ScancodeWrapper
 
-    def __init__(self, events: List[pg.event.Event], clock: pg.time.Clock):
+    def __init__(
+        self,
+        events: List[pg.event.Event],
+        clock: pg.time.Clock,
+        pressed: ScancodeWrapper,
+    ):
         self.events = events
         self.clock = clock
+        self.pressed = pressed
 
 
 class Scene(metaclass=SceneMeta):
-    surface: pg.Surface
+    surface: pg.surface.Surface
 
     previous: Optional[Type["Scene"]] = None
     next: Optional[Type["Scene"]] = None
 
     PARAMETER_CLS: Type[SceneParameter] = SceneParameter
 
-    def __init__(self, surface: pg.Surface):
+    def __init__(self, surface: pg.surface.Surface):
         self.surface = surface
 
         self.init()
