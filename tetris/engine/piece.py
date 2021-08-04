@@ -1,4 +1,4 @@
-from typing import Type, TypeVar
+from typing import Type
 
 from tetris.helper import Position, Vector
 from .shape import (
@@ -12,7 +12,7 @@ from .shape import (
     IShape,
 )
 from .texture import Texture
-from .typing import TContent
+from .typing import TextureContent
 
 
 class Piece:
@@ -32,7 +32,12 @@ class Piece:
     _collapsed: bool
 
     def __init__(
-        self, x: int, y: int, shape_cls: Type[Shape], content: TContent, rot: int = 0
+        self,
+        x: float,
+        y: float,
+        shape_cls: Type[Shape],
+        content: TextureContent,
+        rot: int = 0,
     ):
         self.x = x
         self.y = y
@@ -45,11 +50,13 @@ class Piece:
 
     def move(self, vector: Vector) -> "Piece":
         pos = self.position + vector
-        return Piece(pos.x, pos.y, self.shape, self.texture, self.rot)
+        return Piece(
+            pos.x, pos.y, self._shape.__class__, self.texture.content, self.rot
+        )
 
     def __iter__(self):
         for i, j in self.shape:
-            yield Position(self.x, self.y) + Vector(i, j)
+            yield self.position + Vector(i, j)
 
     @property
     def position(self) -> Position:
