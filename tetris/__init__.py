@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Type
 
 import pygame as pg
 
@@ -19,7 +19,7 @@ class Game:
     """Main game process"""
 
     WIN_SIZE = (1000, 800)
-    INIT_SCENE_CLS: Scene = StartMenu
+    INIT_SCENE_CLS: Type[Scene] = StartMenu
 
     _surface: pg.Surface
 
@@ -37,11 +37,11 @@ class Game:
 
     @scene_check
     def scene_run(self, scene_parameter: SceneParameter) -> int:
-        return self._scene.run(scene_parameter)
+        return self._scene.run(scene_parameter)  # type: ignore
 
     @scene_check
     def switch_scene(self, value: int):
-        scene_cls_map = {1: self._scene.next, -1: self._scene.previous}
+        scene_cls_map = {1: self._scene.next, -1: self._scene.previous}  # type: ignore
 
         scene_cls = scene_cls_map.get(value)
         if scene_cls:
