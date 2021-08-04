@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union, Any
 
 import pygame as pg
 
@@ -9,9 +9,9 @@ from .base import Scene, SceneParameter
 class StartMenu(Scene):
     """Start menu"""
 
-    font: Optional[pg.font.SysFont] = None
+    font: Optional[pg.font.Font] = None
 
-    FONT_COLOR: RGB = (0, 128, 128)
+    FONT_COLOR: RGB = RGB(0, 128, 128)
     FONT_STYLE: str = "comicsansms"
     TEXT: str = "Press any key to start ..."
 
@@ -25,8 +25,8 @@ class StartMenu(Scene):
             self.text_pos,
         )
 
-    def render_text(self) -> pg.font.SysFont:
-        return self.font.render(
+    def render_text(self) -> Union[pg.Surface, Any]:
+        return self.font.render(  # type: ignore
             self.TEXT,
             True,
             self.FONT_COLOR,
